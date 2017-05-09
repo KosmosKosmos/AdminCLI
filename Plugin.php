@@ -17,9 +17,9 @@ class Plugin extends PluginBase
     {
         return [
             'name'        => 'AdminCLI',
-            'description' => 'No description provided yet...',
+            'description' => 'A collection of Artisan console commands for October CMS administration',
             'author'      => 'KosmosKosmos',
-            'icon'        => 'icon-leaf'
+            'icon'        => 'icon-wrench'
         ];
     }
 
