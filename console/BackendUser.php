@@ -25,7 +25,7 @@ class BackendUser extends Command
     public function fire()
     {
         if ((!count($this->argument()) && !count($this->option())) || !$this->argument('name') || !$this->argument('email')) {
-            $this->info('Create Backen User');
+            $this->info('Create Backend User');
             $name = $this->ask('Enter username');
             $email = ' ';
             while (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
