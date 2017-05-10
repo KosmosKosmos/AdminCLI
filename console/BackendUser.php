@@ -24,16 +24,41 @@ class BackendUser extends Command
      */
     public function fire()
     {
-        $name = $this->argument('name');
-        $email = $this->argument('email');
-        $group = UserGroup::where('name', '=', $this->argument('group'))->first();
-        $noPassword = false;
+        if ((!count($this->argument()) && !count($this->option())) || !$this->argument('name') || !$this->argument('email')) {
+            $this->info('Create Backen User');
+            $name = $this->ask('Enter username');
+            $email = ' ';
+            while (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $email = $this->ask('Enter email address (must be valid)');
+            }
+            $groupName = ' ';
+            $group = UserGroup::where('name', '=', $groupName)->first();
+            $groupNames = UserGroup::all()->lists('name');
+            while (!$group) {
+                $groupName = $this->anticipate('Enter group name', $groupNames);
+                $group = UserGroup::where('name', '=', $groupName)->first();
+            }
+            $noPassword = false;
+            $password = null;
+            $passwordConfirmation = null;
 
-        if ($this->argument('password')) {
-            $password = $this->argument('password');
+            while ($password == null || $password !== $passwordConfirmation) {
+                $password = $this->secret('Enter password');
+                $passwordConfirmation = $this->secret('Confirm password');
+            }
+
         } else {
-            $password = str_random(10);
-            $noPassword = true;
+            $name = $this->argument('name');
+            $email = $this->argument('email');
+            $group = UserGroup::where('name', '=', $this->argument('group'))->first();
+
+            $noPassword = false;
+            if ($this->argument('password')) {
+                $password = $this->argument('password');
+            } else {
+                $password = str_random(10);
+                $noPassword = true;
+            }
         }
 
         $user = BackendAuth::findUserByLogin($name);
@@ -54,7 +79,7 @@ class BackendUser extends Command
         if ($group) {
             $user->groups()->detach();
             $user->groups()->attach($group->id);
-            
+
             if ($group->name == 'Owners') {
                 $user->is_superuser = true;
             }
@@ -74,10 +99,10 @@ class BackendUser extends Command
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'Username'],
-            ['email', InputArgument::REQUIRED, 'Email'],
-            ['group', InputArgument::OPTIONAL, 'User Group. Default value: Owner', 'Owners'],
+            ['name', InputArgument::OPTIONAL, 'Username'],
+            ['email', InputArgument::OPTIONAL, 'Email'],
             ['password', InputArgument::OPTIONAL, 'Password (optional). If password is not defined, it will be generated.'],
+            ['group', InputArgument::OPTIONAL, 'User Group. Default value: Owners', 'Owners'],
         ];
     }
 
@@ -89,4 +114,5 @@ class BackendUser extends Command
     {
         return [];
     }
+
 }
