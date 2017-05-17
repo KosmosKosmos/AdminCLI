@@ -42,15 +42,13 @@ class SetStyles extends Command
             BrandSetting::set('accent-color', '#'.$accent);
         }
         if (File::exists($brand)) {
-            File::copy($brand, storage_path('eventmanager/logo.'.pathinfo($brand)['extension']));
             $settings = BrandSetting::instance();
             $file = new \System\Models\File;
-            $file->data = storage_path('eventmanager/logo.'.pathinfo($brand)['extension']);
+            $file->data = $brand;
             $file->is_public = true;
             $file->save();
 
             $settings->logo()->add($file);
-
         }
 
         Artisan::call('cache:clear');
