@@ -4,6 +4,8 @@ use Backend\Models\BrandSetting;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use October\Rain\Database\ModelException;
+use October\Rain\Support\Facades\File;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -28,22 +30,29 @@ class SetStyles extends Command
         $primary = $this->option('primarycolor');
         $secondary = $this->option('secondarycolor');
         $accent = $this->option('accentcolor');
-
-        $settings = json_decode(DB::select('select value from system_settings where item = ?', ['backend_brand_settings'])[0]->value, true);
+        $brand = $this->option('brandimage');
 
         if (ctype_xdigit($primary) && strlen($primary) == 6) {
-            $settings['primary_color'] = '#'.$primary;
+            BrandSetting::set('primary_color', '#'.$primary);
         }
         if (ctype_xdigit($secondary) && strlen($secondary) == 6) {
-            $settings['secondary_color'] = '#'.$secondary;
+            BrandSetting::set('secondary_color', '#'.$secondary);
         }
         if (ctype_xdigit($accent) && strlen($accent) == 6) {
-            $settings['accent_color'] = '#'.$accent;
+            BrandSetting::set('accent-color', '#'.$accent);
+        }
+        if (File::exists($brand)) {
+            File::copy($brand, storage_path('eventmanager/logo.'.pathinfo($brand)['extension']));
+            $settings = BrandSetting::instance();
+            $file = new \System\Models\File;
+            $file->data = storage_path('eventmanager/logo.'.pathinfo($brand)['extension']);
+            $file->is_public = true;
+            $file->save();
+
+            $settings->logo()->add($file);
+
         }
 
-        $settingsStr = json_encode($settings);
-
-        DB::update('update system_settings set value = :settings where item = :item', ['settings' => $settingsStr, 'item' => 'backend_brand_settings']);
         Artisan::call('cache:clear');
     }
 
@@ -66,6 +75,7 @@ class SetStyles extends Command
             ['primarycolor', 'p', InputOption::VALUE_REQUIRED, 'Primary color (HEX string, format: adbdef)', null],
             ['secondarycolor', 's', InputOption::VALUE_REQUIRED, 'Secondary color (HEX string, format: adbdef)', null],
             ['accentcolor', 'a', InputOption::VALUE_REQUIRED, 'Accent color (HEX string, format: adbdef)', null],
+            ['brandimage', 'b', InputOption::VALUE_REQUIRED, 'Brand image', null],
         ];
     }
 }
