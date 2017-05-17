@@ -32,14 +32,19 @@ class SetStyles extends Command
         $accent = $this->option('accentcolor');
         $brand = $this->option('brandimage');
 
+        $colors = [];
+
         if (ctype_xdigit($primary) && strlen($primary) == 6) {
-            BrandSetting::set('primary_color', '#'.$primary);
+            $colors['primary_color'] = '#'.$primary;
         }
         if (ctype_xdigit($secondary) && strlen($secondary) == 6) {
-            BrandSetting::set('secondary_color', '#'.$secondary);
+            $colors['secondary_color'] = '#'.$secondary;
         }
         if (ctype_xdigit($accent) && strlen($accent) == 6) {
-            BrandSetting::set('accent_color', '#'.$accent);
+            $colors['accent_color'] = '#'.$accent;
+        }
+        if (count($colors)) {
+            BrandSetting::set($colors);
         }
         if (File::exists($brand)) {
             $settings = BrandSetting::instance();
