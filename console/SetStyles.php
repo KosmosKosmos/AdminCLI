@@ -39,7 +39,7 @@ class SetStyles extends Command
             BrandSetting::set('secondary_color', '#'.$secondary);
         }
         if (ctype_xdigit($accent) && strlen($accent) == 6) {
-            BrandSetting::set('accent-color', '#'.$accent);
+            BrandSetting::set('accent_color', '#'.$accent);
         }
         if (File::exists($brand)) {
             $settings = BrandSetting::instance();
