@@ -84,12 +84,12 @@ class SetStyles extends Command
     protected function getOptions()
     {
         return [
-            ['primarycolor', 'p', InputOption::VALUE_REQUIRED, 'Primary color (HEX string, format: adbdef)', null],
-            ['secondarycolor', 's', InputOption::VALUE_REQUIRED, 'Secondary color (HEX string, format: adbdef)', null],
-            ['accentcolor', 'a', InputOption::VALUE_REQUIRED, 'Accent color (HEX string, format: adbdef)', null],
-            ['brandimage', 'b', InputOption::VALUE_REQUIRED, 'Brand image', null],
-            ['tagline', 't', InputOption::VALUE_REQUIRED, 'App Tagline', null],
-            ['appName', 'n', InputOption::VALUE_REQUIRED, 'App Name', null],
+            ['primarycolor', null, InputOption::VALUE_REQUIRED, 'Primary color (HEX string, format: adbdef)', null],
+            ['secondarycolor', null, InputOption::VALUE_REQUIRED, 'Secondary color (HEX string, format: adbdef)', null],
+            ['accentcolor', null, InputOption::VALUE_REQUIRED, 'Accent color (HEX string, format: adbdef)', null],
+            ['brandimage', null, InputOption::VALUE_REQUIRED, 'Brand image', null],
+            ['tagline', null, InputOption::VALUE_REQUIRED, 'App Tagline', null],
+            ['appName', null, InputOption::VALUE_REQUIRED, 'App Name', null],
         ];
     }
 }
