@@ -89,7 +89,7 @@ class SetStyles extends Command
             ['accentcolor', 'a', InputOption::VALUE_REQUIRED, 'Accent color (HEX string, format: adbdef)', null],
             ['brandimage', 'b', InputOption::VALUE_REQUIRED, 'Brand image', null],
             ['tagline', 't', InputOption::VALUE_REQUIRED, 'App Tagline', null],
-            ['appName', 'a', InputOption::VALUE_REQUIRED, 'App Name', null],
+            ['appName', 'n', InputOption::VALUE_REQUIRED, 'App Name', null],
         ];
     }
 }
