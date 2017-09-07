@@ -27,29 +27,38 @@ class SetStyles extends Command
      */
     public function fire()
     {
-        $primary = $this->option('primarycolor');
-        $secondary = $this->option('secondarycolor');
-        $accent = $this->option('accentcolor');
-        $brand = $this->option('brandimage');
+        $colorPrimary = $this->option('primarycolor');
+        $colorSecondary = $this->option('secondarycolor');
+        $colorAccent = $this->option('accentcolor');
+        $brandLogo = $this->option('brandimage');
+        $tagline = $this->option('tagline');
+        $appName = $this->option('appName');
 
-        $colors = [];
+        $branding = [];
 
-        if (ctype_xdigit($primary) && strlen($primary) == 6) {
-            $colors['primary_color'] = '#'.$primary;
+        if (ctype_xdigit($colorPrimary) && strlen($colorPrimary) == 6) {
+            $branding['primary_color'] = '#'.$colorPrimary;
         }
-        if (ctype_xdigit($secondary) && strlen($secondary) == 6) {
-            $colors['secondary_color'] = '#'.$secondary;
+        if (ctype_xdigit($colorSecondary) && strlen($colorSecondary) == 6) {
+            $branding['secondary_color'] = '#'.$colorSecondary;
         }
-        if (ctype_xdigit($accent) && strlen($accent) == 6) {
-            $colors['accent_color'] = '#'.$accent;
+        if (ctype_xdigit($colorAccent) && strlen($colorAccent) == 6) {
+            $branding['accent_color'] = '#'.$colorAccent;
         }
-        if (count($colors)) {
-            BrandSetting::set($colors);
+        if (strlen($tagline)) {
+        	$branding['tagline'] = $this->option('tagline');
         }
-        if (File::exists($brand)) {
+        if (strlen($appName)) {
+        	$branding['appName'] = $this->option('appName');
+        }
+
+        if (count($branding)) {
+            BrandSetting::set($branding);
+        }
+        if (File::exists($brandLogo)) {
             $settings = BrandSetting::instance();
             $file = new \System\Models\File;
-            $file->data = $brand;
+            $file->data = $brandLogo;
             $file->is_public = true;
             $file->save();
 
@@ -79,6 +88,8 @@ class SetStyles extends Command
             ['secondarycolor', 's', InputOption::VALUE_REQUIRED, 'Secondary color (HEX string, format: adbdef)', null],
             ['accentcolor', 'a', InputOption::VALUE_REQUIRED, 'Accent color (HEX string, format: adbdef)', null],
             ['brandimage', 'b', InputOption::VALUE_REQUIRED, 'Brand image', null],
+            ['tagline', 't', InputOption::VALUE_REQUIRED, 'App Tagline', null],
+            ['appName', 'a', InputOption::VALUE_REQUIRED, 'App Name', null],
         ];
     }
 }
