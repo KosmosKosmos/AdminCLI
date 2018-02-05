@@ -25,7 +25,7 @@ class SetStyles extends Command
      * Execute the console command.
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $colorPrimary = $this->option('primarycolor');
         $colorSecondary = $this->option('secondarycolor');
