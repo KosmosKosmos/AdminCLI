@@ -21,7 +21,7 @@ class BackendUserGroup extends Command
      * Execute the console command.
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $group = UserGroup::where('name', '=', $this->argument('name'))->first();
         if (!$group) {
@@ -31,7 +31,7 @@ class BackendUserGroup extends Command
             $group->description = $this->argument('description');
         }
         $permissions = array_fill_keys($this->option('permissions'), '1');
-        $group->permissions = $permissions;
+        //$group->permissions = $permissions;
         $group->save();
     }
 
