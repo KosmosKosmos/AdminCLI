@@ -46,10 +46,10 @@ class SetStyles extends Command
             $branding['accent_color'] = '#'.$colorAccent;
         }
         if (strlen($tagline)) {
-        	$branding['tagline'] = $this->option('tagline');
+        	$branding['app_tagline'] = $this->option('tagline');
         }
         if (strlen($appName)) {
-        	$branding['appName'] = $this->option('appName');
+        	$branding['app_name'] = $this->option('appName');
         }
 
         if (count($branding)) {
