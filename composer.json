@@ -1,0 +1,12 @@
+{
+    "name": "kosmoskosmos/admincli",
+    "description": "Admin CLI stuff for octobercms",
+    "type": "octobercms-plugin",
+    "authors": [
+        {
+            "name": "Andreas Kosmowicz",
+            "email": "kosmonowt@googlemail.com"
+        }
+    ],
+    "require": {}
+}
