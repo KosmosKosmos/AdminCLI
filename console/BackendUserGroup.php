@@ -36,8 +36,12 @@ class BackendUserGroup extends Command
             $group->code = $this->argument('code');
             $group->description = $this->argument('description');
         }
-        $permissions = array_fill_keys($this->option('permissions'), '1');
-        $group->permissions = $permissions;
+
+        if ($this->option('permissions')) {
+            $permissions = array_fill_keys($this->option('permissions'), '1');
+            $group->permissions = $permissions;
+        }
+
         $group->save();
     }
 
