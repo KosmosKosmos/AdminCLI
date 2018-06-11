@@ -39,9 +39,11 @@ class BackendUserGroup extends Command
 
         if ($this->option('permissions')) {
             $permissions = array_fill_keys($this->option('permissions'), '1');
-            $group->permissions = $permissions;
+        } else {
+            $permissions = [];
         }
 
+        $group->permissions = $permissions;
         $group->save();
     }
 
