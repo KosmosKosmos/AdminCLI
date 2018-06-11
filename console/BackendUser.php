@@ -19,10 +19,16 @@ class BackendUser extends Command
     protected $description = 'Manage Backend Users via CLI';
 
     /**
+     * @deprecated
+     */
+    public function fire() {
+        $this->handle();
+    }
+    /**
      * Execute the console command.
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         if ((!count($this->argument()) && !count($this->option())) || !$this->argument('name') || !$this->argument('email')) {
             $this->info('Create Backend User');

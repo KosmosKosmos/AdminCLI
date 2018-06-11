@@ -22,10 +22,16 @@ class SetStyles extends Command
     protected $description = 'Manage Backend views style';
 
     /**
+     * @deprecated 
+     */
+    public function fire() {
+        $this->handle();
+    }
+    /**
      * Execute the console command.
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $colorPrimary = $this->option('primarycolor');
         $colorSecondary = $this->option('secondarycolor');

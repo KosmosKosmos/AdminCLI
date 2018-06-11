@@ -18,10 +18,16 @@ class FrontendUserGroup extends Command
     protected $description = 'Manage Frontend User Groups';
 
     /**
+     * @deprecated
+     */
+    public function fire() {
+        $this->handle();
+    }
+    /**
      * Execute the console command.
      * @return void
      */
-    public function fire()
+    public function handle()
     {
 	    $group = UserGroup::where('name', '=', $this->argument('name'))->first();
 	    if (!$group) {
