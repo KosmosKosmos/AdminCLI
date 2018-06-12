@@ -40,7 +40,7 @@ class BackendUserGroup extends Command
         if ($this->option('permissions')) {
             $group->permissions = array_fill_keys($this->option('permissions'), '1');
         }
-        
+
         $group->save();
     }
 

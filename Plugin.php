@@ -34,6 +34,7 @@ class Plugin extends PluginBase
         $this->registerConsoleCommand('admincli.backendusergroup', 'KosmosKosmos\AdminCLI\Console\BackendUserGroup');
         $this->registerConsoleCommand('admincli.setstyles', 'KosmosKosmos\AdminCLI\Console\SetStyles');
         $this->registerConsoleCommand('admincli.frontendusergroup', 'KosmosKosmos\AdminCLI\Console\FrontendUserGroup');
+        $this->registerConsoleCommand('admincli.backenduserrole', 'KosmosKosmos\AdminCLI\Console\BackendUserRole');
     }
 
     /**
