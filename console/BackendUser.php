@@ -2,6 +2,7 @@
 
 use Backend\Facades\BackendAuth;
 use Backend\Models\UserGroup;
+use Backend\Models\UserRole;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -57,6 +58,9 @@ class BackendUser extends Command
             $name = $this->argument('name');
             $email = $this->argument('email');
             $group = UserGroup::where('name', '=', $this->argument('group'))->first();
+            if (class_exists('Backend\Models\UserRole')) {
+                $role = UserRole::where('name', '=', $this->argument('group'))->first();
+            }
 
             $noPassword = false;
             if ($this->argument('password')) {
@@ -70,12 +74,12 @@ class BackendUser extends Command
         $user = BackendAuth::findUserByLogin($name);
         if (!$user) {
             $user = BackendAuth::register([
-                'first_name' => ucfirst($name),
-                'last_name' => ucfirst($name),
-                'login' => $name,
-                'email' => $email,
-                'password' => $password,
-                'password_confirmation' => $password
+                    'first_name' => ucfirst($name),
+                    'last_name' => ucfirst($name),
+                    'login' => $name,
+                    'email' => $email,
+                    'password' => $password,
+                    'password_confirmation' => $password
             ]);
         } else {
             $user->password = $password;
@@ -89,6 +93,10 @@ class BackendUser extends Command
             if ($group->name == 'Owners') {
                 $user->is_superuser = true;
             }
+        }
+
+        if (isset($role) && $role !== null) {
+            $user->role = $role;
         }
 
         $user->save();
@@ -105,10 +113,11 @@ class BackendUser extends Command
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::OPTIONAL, 'Username'],
-            ['email', InputArgument::OPTIONAL, 'Email'],
-            ['password', InputArgument::OPTIONAL, 'Password (optional). If password is not defined, it will be generated.'],
-            ['group', InputArgument::OPTIONAL, 'User Group. Default value: Owners', 'Owners'],
+                ['name', InputArgument::OPTIONAL, 'Username'],
+                ['email', InputArgument::OPTIONAL, 'Email'],
+                ['password', InputArgument::OPTIONAL, 'Password (optional). If password is not defined, it will be generated.'],
+                ['group', InputArgument::OPTIONAL, 'User Group. Default value: Owners', 'Owners'],
+                ['role', InputArgument::OPTIONAL, 'User Role. For new versions of October CMS only. Default value: Owners', 'Owners'],
         ];
     }
 
