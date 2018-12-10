@@ -35,6 +35,8 @@ class SetLocale extends Command
         $locale->is_default = ($this->option('default') ? true : false);
         $locale->is_enabled = true;
         $locale->save();
+
+        $this->output->writeln('Added locale "'.$locale->code.'", "'.$locale->name.'".'.($locale->is_default ? ' Set as default.' : ''));
     }
 
     /**
