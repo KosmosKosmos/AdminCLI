@@ -144,7 +144,7 @@ class BackendUser extends Command
         }
         while(strlen($password) < 10) {
             $set = $characters[array_rand($characters)];
-            $password .= $characters[array_rand(str_split($set))];
+            $password .= $set[array_rand(str_split($set))];
         }
 
         return str_shuffle($password);
