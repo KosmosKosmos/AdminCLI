@@ -66,7 +66,7 @@ class BackendUser extends Command
             if ($this->argument('password')) {
                 $password = $this->argument('password');
             } else {
-                $password = str_random(10);
+                $password = $this->generatePassword();
                 $noPassword = true;
             }
         }
@@ -128,6 +128,26 @@ class BackendUser extends Command
     protected function getOptions()
     {
         return [];
+    }
+
+    protected function generatePassword() {
+        $password = '';
+        $characters = [
+            'ABCDEFGHJKLMNPQRSTUVWXYZ',
+            'abcdefghjkmnpqrstuvwxyz',
+            '0123456789',
+            '~!@#$%^&*(){}[],./?'
+        ];
+
+        foreach ($characters as $set) {
+            $password .= $set[array_rand(str_split($set))];
+        }
+        while(strlen($password) < 10) {
+            $set = $characters[array_rand($characters)];
+            $password .= $characters[array_rand(str_split($set))];
+        }
+
+        return str_shuffle($password);
     }
 
 }
