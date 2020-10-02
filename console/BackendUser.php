@@ -1,6 +1,7 @@
 <?php namespace KosmosKosmos\AdminCLI\Console;
 
 use Backend\Facades\BackendAuth;
+use Backend\Models\User;
 use Backend\Models\UserGroup;
 use Backend\Models\UserRole;
 use Illuminate\Console\Command;
@@ -73,14 +74,14 @@ class BackendUser extends Command
 
         $user = BackendAuth::findUserByLogin($name);
         if (!$user) {
-            $user = BackendAuth::register([
-                    'first_name' => ucfirst($name),
-                    'last_name' => ucfirst($name),
-                    'login' => $name,
-                    'email' => $email,
-                    'password' => $password,
-                    'password_confirmation' => $password
-            ]);
+            $user = new User();
+            $user->first_name = ucfirst($name);
+            $user->last_name = ucfirst($name);
+            $user->login = $name;
+            $user->email = $email;
+            $user->password = $password;
+            $user->password_confirmation = $password;
+            $user->save();
         } else {
             $user->password = $password;
             $user->password_confirmation = $password;
