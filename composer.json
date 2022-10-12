@@ -1,5 +1,5 @@
 {
-    "name": "kosmoskosmos/admincli",
+    "name": "kosmoskosmos/admincli-plugin",
     "description": "Admin CLI stuff for octobercms",
     "type": "octobercms-plugin",
     "authors": [
@@ -8,5 +8,7 @@
             "email": "kosmonowt@googlemail.com"
         }
     ],
-    "require": {}
+    "require": {
+         "composer/installers": "~1.0"
+    }
 }
