@@ -1,7 +1,7 @@
 {
     "name": "kosmoskosmos/admincli-plugin",
     "description": "Admin CLI stuff for octobercms",
-    "type": "octobercms-plugin",
+    "type": "october-plugin",
     "authors": [
         {
             "name": "Andreas Kosmowicz",
