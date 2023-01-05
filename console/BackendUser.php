@@ -5,19 +5,11 @@ use Backend\Models\User;
 use Backend\Models\UserGroup;
 use Backend\Models\UserRole;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class BackendUser extends Command
-{
-    /**
-     * @var string The console command name.
-     */
-    protected $name = 'admincli:backenduser';
+class BackendUser extends Command {
 
-    /**
-     * @var string The console command description.
-     */
+    protected $name = 'admincli:backenduser';
     protected $description = 'Manage Backend Users via CLI';
 
     /**
@@ -26,12 +18,8 @@ class BackendUser extends Command
     public function fire() {
         $this->handle();
     }
-    /**
-     * Execute the console command.
-     * @return void
-     */
-    public function handle()
-    {
+
+    public function handle() {
         if ((!count($this->argument()) && !count($this->option())) || !$this->argument('name') || !$this->argument('email')) {
             $this->info('Create Backend User');
             $name = $this->ask('Enter username');
@@ -49,6 +37,9 @@ class BackendUser extends Command
             $noPassword = false;
             $password = null;
             $passwordConfirmation = null;
+            if (class_exists('Backend\Models\UserRole')) {
+                $role = UserRole::where('name', '=', $this->argument('role'))->first();
+            }
 
             while ($password == null || $password !== $passwordConfirmation) {
                 $password = $this->secret('Enter password');
@@ -60,7 +51,7 @@ class BackendUser extends Command
             $email = $this->argument('email');
             $group = UserGroup::where('name', '=', $this->argument('group'))->first();
             if (class_exists('Backend\Models\UserRole')) {
-                $role = UserRole::where('name', '=', $this->argument('group'))->first();
+                $role = UserRole::where('name', '=', $this->argument('role'))->first();
             }
 
             $noPassword = false;
@@ -107,27 +98,17 @@ class BackendUser extends Command
         }
     }
 
-    /**
-     * Get the console command arguments.
-     * @return array
-     */
-    protected function getArguments()
-    {
+    protected function getArguments() {
         return [
                 ['name', InputArgument::OPTIONAL, 'Username'],
                 ['email', InputArgument::OPTIONAL, 'Email'],
                 ['password', InputArgument::OPTIONAL, 'Password (optional). If password is not defined, it will be generated.'],
                 ['group', InputArgument::OPTIONAL, 'User Group. Default value: Owners', 'Owners'],
-                ['role', InputArgument::OPTIONAL, 'User Role. For new versions of October CMS only. Default value: Owners', 'Owners'],
+                ['role', InputArgument::OPTIONAL, 'User Role. For new versions of October CMS only. Default value: Owners', 'Developer'],
         ];
     }
 
-    /**
-     * Get the console command options.
-     * @return array
-     */
-    protected function getOptions()
-    {
+    protected function getOptions() {
         return [];
     }
 
